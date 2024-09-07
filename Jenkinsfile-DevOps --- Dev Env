@@ -54,7 +54,7 @@ pipeline {
         stage('OWASP File System SCAN') {
             steps {
                 //dir('Band Website') {
-                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcpy-monitorllation: 'DP-Check'
+                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
                     dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
                 //}
             }
