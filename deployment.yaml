@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: py-monitor-deployment
+spec:
+  replicas: 6  # Number of desired replicas
+  selector:
+    matchLabels:
+      app: py-monitor
+  template:
+    metadata:
+      labels:
+        app: py-monitor
+    spec:
+      containers:
+      - name: py-monitor
+        image: yash5090/py-monitor:latest
+        ports:
+        - containerPort: 5000
