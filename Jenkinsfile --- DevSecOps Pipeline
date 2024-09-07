@@ -106,10 +106,10 @@ pipeline {
             }
         }
         
-        // stage('foodz-appll Dependencies') {
+        // stage('py-monitorll Dependencies') {
         //     steps {
         //         //dir('Band Website') {
-        //             sh "npm foodz-appll"
+        //             sh "npm py-monitorll"
         //         //}
         //     }
         // }
@@ -117,7 +117,7 @@ pipeline {
         stage('OWASP File System SCAN') {
             steps {
                 //dir('Band Website') {
-                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcfoodz-appllation: 'DP-Check'
+                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcpy-monitorllation: 'DP-Check'
                     dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
                 //}
             }
@@ -156,7 +156,7 @@ pipeline {
                 script{
                     //dir('Band Website') {
                         withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                            sh "docker build -t foodz-app ." 
+                            sh "docker build -t py-monitor ." 
                             
                         //}
                     }
@@ -169,7 +169,7 @@ pipeline {
                 script{
                     //dir('Band Website') {
                         withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                            sh "docker tag foodz-app yash5090/foodz-app:latest " 
+                            sh "docker tag py-monitor yash5090/py-monitor:latest " 
                         //}
                     }
                 }
@@ -178,7 +178,7 @@ pipeline {
         
         stage('Docker Image Scanning') { 
             steps { 
-                sh "trivy image --format table -o trivy-image-report.html yash5090/foodz-app:latest" 
+                sh "trivy image --format table -o trivy-image-report.html yash5090/py-monitor:latest" 
             } 
         } 
         
@@ -187,7 +187,7 @@ pipeline {
                 script{
                     //dir('Band Website') {
                         withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
-                            sh "docker push yash5090/foodz-app:latest "
+                            sh "docker push yash5090/py-monitor:latest "
                         //}
                     }
                 }
@@ -198,10 +198,10 @@ pipeline {
             steps {
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                       sh 'docker-scout quickview yash5090/foodz-app:latest'
-                       sh 'docker-scout cves yash5090/foodz-app:latest'
-                       sh 'docker-scout recommendations yash5090/foodz-app:latest'
-                       sh 'docker-scout attestation yash5090/foodz-app:latest'
+                       sh 'docker-scout quickview yash5090/py-monitor:latest'
+                       sh 'docker-scout cves yash5090/py-monitor:latest'
+                       sh 'docker-scout recommendations yash5090/py-monitor:latest'
+                       sh 'docker-scout attestation yash5090/py-monitor:latest'
                    }
                 }   
             }
@@ -210,7 +210,7 @@ pipeline {
         stage("TRIVY"){
             steps{
                 //dir('Band Website') {
-                    sh "trivy image yash5090/foodz-app:latest > trivyimage.txt"   
+                    sh "trivy image yash5090/py-monitor:latest > trivyimage.txt"   
                 //}
             }
         }
@@ -219,7 +219,7 @@ pipeline {
             steps {
                 script{
                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
-                      sh 'docker-scout sbom --format list yash5090/foodz-app:latest' // docker-scout sbom yash5090/foodz-app:latest
+                      sh 'docker-scout sbom --format list yash5090/py-monitor:latest' // docker-scout sbom yash5090/py-monitor:latest
                     }
                 }   
             }
@@ -253,15 +253,15 @@ pipeline {
 
         stage ("Remove Docker Container") {
             steps{
-                sh "docker stop foodz-app | true"
-                sh "docker rm foodz-app | true"
+                sh "docker stop py-monitor | true"
+                sh "docker rm py-monitor | true"
              }
         }
         
         stage('Deploy to Docker Container'){
             steps{
                 //dir('BMI Calculator (JS)') {
-                    sh 'docker run -d --name foodz-app -p 5000:5000 yash5090/foodz-app:latest' 
+                    sh 'docker run -d --name py-monitor -p 5000:5000 yash5090/py-monitor:latest' 
                 //}
             }
         }
